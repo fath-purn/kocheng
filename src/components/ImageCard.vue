@@ -1,13 +1,13 @@
 <template>
   <div class="overflow-hidden rounded-lg shadow-md transition-transform relative group/image cursor-pointer"
-    :class="{ 'rotate-y-180': flipped }" @click.stop="toggleFlip" @touchstart.passive="startTouch"
-    @touchmove.passive="moveTouch">
+    :class="{ 'rotate-y-180': flipped }" @click="toggleFlip">
+
     <!-- Bagian depan (gambar) -->
     <div class="inset-0 transition-all duration-500 rotate-y-180"
       :class="{ 'opacity-100': !flipped, 'opacity-50': flipped }">
       <img :src="item.url" :alt="item.breeds && item.breeds.length > 0 ? item.breeds[0].name : 'Cat image'"
         class="w-full transition-opacity" @load="handleImageLoaded" @error="handleImageError"
-        :class="{ 'opacity-0': loading, 'rotate-y-180': !flipped }" />
+        :class="{ 'opacity-0': loading, 'rotate-y-180': !flipped }">
       <div v-if="!flipped" :class="{ 'rotate-y-180': !flipped }"
         class="absolute bottom-0 z-10 px-5 pb-4 pt-10 w-full text-gray-200 opacity-0 transition-opacity duration-300 ease-in-out group-hover/image:opacity-100 group-hover/image:bg-linear-to-t/oklch from-[#050000bb] from-30% via-[#00000056] via-70% to-[#eeeded09] to-90%">
         <div class="grid grid-cols-[auto_1fr] gap-x-2 gap-y-1">
@@ -69,24 +69,7 @@ export default {
       default: false,
     },
   },
-  data() {
-    return {
-      touchStartY: 0,
-      touchEndY: 0,
-    };
-  },
   methods: {
-    startTouch(event: TouchEvent) {
-      this.touchStartY = event.touches[0].clientY;
-    },
-    moveTouch(event: TouchEvent) {
-      this.touchEndY = event.touches[0].clientY;
-
-      if (Math.abs(this.touchEndY - this.touchStartY) > 10) {
-        // Jika ada pergerakan vertikal, jangan trigger klik
-        event.stopPropagation();
-      }
-    },
     handleImageLoaded() {
       this.$emit('image-loaded', this.item.id);
     },
@@ -103,10 +86,8 @@ export default {
 <style scoped>
 .image-card-back {
   -webkit-overflow-scrolling: touch;
-  /* Smooth scrolling di iOS */
+  /* Memungkinkan scroll smooth pada perangkat mobile */
   overscroll-behavior: contain;
   /* Mencegah scroll dari elemen parent */
-  touch-action: pan-y;
-  /* Memastikan scrolling vertikal berfungsi */
 }
 </style>
