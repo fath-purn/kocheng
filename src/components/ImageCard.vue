@@ -2,7 +2,7 @@
   <div class="overflow-hidden rounded-lg shadow-md transition-transform relative group/image cursor-pointer"
     :class="{ 'rotate-y-180': flipped }" @click="toggleFlip">
 
-    <!-- Front side of the card -->
+    <!-- Bagian depan (gambar) -->
     <div class="inset-0 transition-all duration-500 rotate-y-180"
       :class="{ 'opacity-100': !flipped, 'opacity-50': flipped }">
       <img :src="item.url" :alt="item.breeds && item.breeds.length > 0 ? item.breeds[0].name : 'Cat image'"
@@ -26,11 +26,11 @@
       </div>
     </div>
 
-    <!-- Back side of the card -->
-    <div class="absolute bottom-0 z-10 px-5 py-4 w-full text-gray-200 h-full backdrop-brightness-30 snap-y
-      transition-all duration-500 ease-in-out"
+    <!-- Bagian belakang (informasi breed) -->
+    <div class="absolute inset-0 z-10 px-5 py-4 w-full text-gray-200 h-full backdrop-brightness-30 snap-y
+      transition-all duration-500 ease-in-out overflow-y-auto image-card-back"
       :class="{ 'opacity-100': flipped, 'opacity-0': !flipped, 'rotate-y-180': flipped }">
-      <div class="grid grid-cols-[auto_1fr] gap-x-2 gap-y-1 overflow-auto max-h-full p-2">
+      <div class="grid grid-cols-[auto_1fr] gap-x-2 gap-y-1 p-2">
         <p class="font-semibold text-right">Name</p>
         <p class="text-left">{{ item.breeds[0]?.name || '-' }}</p>
 
@@ -82,3 +82,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.image-card-back {
+  -webkit-overflow-scrolling: touch;
+  /* Memungkinkan scroll smooth pada perangkat mobile */
+  overscroll-behavior: contain;
+  /* Mencegah scroll dari elemen parent */
+}
+</style>
