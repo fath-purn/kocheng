@@ -1,5 +1,6 @@
 <template>
-  <div class="overflow-hidden rounded-lg shadow-md transition-transform relative group/image cursor-pointer"
+  <div
+    class="overflow-hidden rounded-lg shadow-md transition-transform relative group/image cursor-pointer pointer-events-auto md:pointer-events-none"
     :class="{ 'rotate-y-180': flipped }" @click="toggleFlip">
 
     <!-- Bagian depan (gambar) -->
