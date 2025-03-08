@@ -28,8 +28,8 @@
 
     <!-- Bagian belakang (informasi breed) -->
     <div class="absolute inset-0 z-10 px-5 py-4 w-full text-gray-200 h-full backdrop-brightness-30 snap-y
-      transition-all duration-500 ease-in-out overflow-y-auto image-card-back"
-      :class="{ 'opacity-100': flipped, 'opacity-0': !flipped, 'rotate-y-180': flipped }">
+      transition-all duration-500 ease-in-out image-card-back"
+      :class="{ 'opacity-100': flipped, 'opacity-0': !flipped, 'rotate-y-180': flipped, 'overflow-y-auto': flipped }">
       <div class="grid grid-cols-[auto_1fr] gap-x-2 gap-y-1 p-2">
         <p class="font-semibold text-right">Name</p>
         <p class="text-left">{{ item.breeds[0]?.name || '-' }}</p>

@@ -4,7 +4,7 @@
     <ErrorState v-else-if="error" :error="error" @retry="fetchData" />
     <EmptyState v-else-if="data.length === 0" />
 
-    <div v-else class="flex flex-col md:flex-row gap-4">
+    <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       <ImageColumn v-for="(column, index) in columns" :key="index" :items="column" :loading-images="loadingImages"
         :flipped-items="flippedItems" @image-loaded="handleImageLoaded" @image-error="handleImageError"
         @toggle-flip="toggleFlip" />
@@ -22,6 +22,7 @@
       <p>Loading More: {{ loadingMore }}</p>
       <p>Has More: {{ hasMore }}</p>
       <p>Flipped: {{ flippedItems.length }}</p>
+      <p>Columns: {{ columnCount }}</p>
     </div>
   </main>
 </template>
@@ -76,17 +77,37 @@ export default {
       flippedItems: [] as string[],
     }
   },
+  // In your main component
   computed: {
     currentBreedId() {
       return this.$route.query.breeds_ids || '';
     },
+    columnCount() {
+      // Return different column counts based on screen size
+      // These are tailwind breakpoints: sm = 640px, md = 768px, lg = 1024px
+      if (window.innerWidth < 640) return 1; // Mobile - single column
+      if (window.innerWidth < 1024) return 2; // Tablet - two columns
+      return 3; // Desktop - three columns
+    },
     columns() {
-      const result: Data[][] = [[], [], []];
+      const result: Data[][] = Array(this.columnCount).fill([]).map(() => []);
       this.data.forEach((item, index) => {
-        const columnIndex = index % 3;
+        const columnIndex = index % this.columnCount;
         result[columnIndex].push(item);
       });
       return result;
+    }
+  },
+  mounted() {
+    window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('resize', this.handleResize);
+    this.handleResize(); // Initialize column count on mount
+  },
+  beforeUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('resize', this.handleResize);
+    if (this.currentRequest) {
+      this.currentRequest.abort();
     }
   },
   watch: {
@@ -102,15 +123,6 @@ export default {
       },
       immediate: true,
     },
-  },
-  mounted() {
-    window.addEventListener('scroll', this.handleScroll);
-  },
-  beforeUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
-    if (this.currentRequest) {
-      this.currentRequest.abort();
-    }
   },
   methods: {
     handleScroll() {
@@ -180,6 +192,11 @@ export default {
             this.currentRequest = null;
           }
         });
+    },
+    // Add this method to handle window resizing
+    handleResize() {
+      // Force recomputation of columns when window is resized
+      this.$forceUpdate();
     },
     handleImageLoaded(imageId: string) {
       this.loadingImages = this.loadingImages.filter(id => id !== imageId);
