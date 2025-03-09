@@ -69,7 +69,7 @@ export default {
       loadingMore: false,
       error: null as string | null,
       loadingImages: [] as string[],
-      showDebug: true,
+      showDebug: false,
       currentRequest: null as AbortController | null,
       page: 1,
       hasMore: true,
@@ -202,7 +202,6 @@ export default {
           }
         });
     },
-
     // Add this method to handle window resizing
     handleResize() {
       // Force recomputation of columns when window is resized
