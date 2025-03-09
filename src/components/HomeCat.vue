@@ -69,7 +69,7 @@ export default {
       loadingMore: false,
       error: null as string | null,
       loadingImages: [] as string[],
-      showDebug: false,
+      showDebug: true,
       currentRequest: null as AbortController | null,
       page: 1,
       hasMore: true,
@@ -168,11 +168,19 @@ export default {
           return response.json();
         })
         .then((newData) => {
+          if (this.page === 1 && newData.length < 15) {
+            // Jika di halaman pertama jumlah data kurang dari 15, matikan infinite scroll
+            this.hasMore = false;
+          }
+
           if (newData.length === 0) {
             this.hasMore = false;
           } else {
-            this.data.push(...newData);
-            const newIds = newData.map((item: Data) => item.id);
+            const existingIds = new Set(this.data.map((item) => item.id));
+            const uniqueData = newData.filter((item: Data) => !existingIds.has(item.id));
+
+            this.data.push(...uniqueData);
+            const newIds = uniqueData.map((item: Data) => item.id);
             this.loadingImages.push(...newIds);
             this.page++;
           }
