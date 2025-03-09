@@ -28,10 +28,10 @@
 </template>
 
 <script lang="ts">
-import LoadingSpinner from './LoadingSpinner.vue';
-import ErrorState from './ErrorState.vue';
-import EmptyState from './EmptyState.vue';
-import ImageColumn from './ImageColumn.vue';
+import LoadingSpinner from './cat/LoadingSpinner.vue';
+import ErrorState from './cat/ErrorState.vue';
+import EmptyState from './cat/EmptyState.vue';
+import ImageColumn from './cat/ImageColumn.vue';
 
 interface Breed {
   id: string;
@@ -157,9 +157,7 @@ export default {
 
       fetch(
         `${this.apiUrl}/images/search?limit=15&breed_ids=${breedId}&page=${this.page}&size=small&api_key=${this.apiKey}`,
-        {
-          signal: controller.signal,
-        }
+        { signal: controller.signal }
       )
         .then((response) => {
           if (!response.ok) {
@@ -169,7 +167,6 @@ export default {
         })
         .then((newData) => {
           if (this.page === 1 && newData.length < 15) {
-            // Jika di halaman pertama jumlah data kurang dari 15, matikan infinite scroll
             this.hasMore = false;
           }
 
@@ -179,10 +176,14 @@ export default {
             const existingIds = new Set(this.data.map((item) => item.id));
             const uniqueData = newData.filter((item: Data) => !existingIds.has(item.id));
 
-            this.data.push(...uniqueData);
-            const newIds = uniqueData.map((item: Data) => item.id);
-            this.loadingImages.push(...newIds);
-            this.page++;
+            if (uniqueData.length === 0) {
+              this.hasMore = false; // Tidak ada data baru yang unik, matikan infinite scroll
+            } else {
+              this.data.push(...uniqueData);
+              const newIds = uniqueData.map((item: Data) => item.id);
+              this.loadingImages.push(...newIds);
+              this.page++;
+            }
           }
         })
         .catch((error) => {
@@ -201,6 +202,7 @@ export default {
           }
         });
     },
+
     // Add this method to handle window resizing
     handleResize() {
       // Force recomputation of columns when window is resized
