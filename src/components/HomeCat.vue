@@ -1,5 +1,5 @@
 <template>
-  <main class="mx-auto p-2 md:p-4">
+  <main class="mx-auto p-2 md:p-4 bg-white dark:bg-gray-800">
     <LoadingSpinner v-if="isLoading && data.length === 0" />
     <ErrorState v-else-if="error" :error="error" @retry="fetchData" />
     <EmptyState v-else-if="data.length === 0" />

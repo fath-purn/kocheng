@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 
 const displayText = ref('');
-const fullText = 'Welcome to the Home Page';
+const fullText = 'On Progres!!';
 const typingSpeed = 100; // miliseconds per character
 
 onMounted(() => {
