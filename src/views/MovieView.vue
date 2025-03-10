@@ -23,7 +23,7 @@ onMounted(() => {
 
 <template>
   <main class="flex items-center justify-center bg-white dark:bg-gray-800">
-    <div class="container mx-auto h-screen w-full flex flex-col items-center justify-center">
+    <div class="container mx-auto h-screen flex flex-col items-center justify-center">
       <h1 class="text-4xl font-bold text-center text-gray-800 dark:text-white relative">
         <span>{{ displayText }}</span>
         <span class="cursor" aria-hidden="true"></span>
