@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import LoadingSpinner from './cat/LoadingSpinner.vue';
+import LoadingSpinner from './LoadingSpinner.vue';
 import ErrorState from './cat/ErrorState.vue';
 import EmptyState from './cat/EmptyState.vue';
 import ImageColumn from './cat/ImageColumn.vue';
@@ -71,7 +71,7 @@ export default {
       loadingImages: [] as string[],
       showDebug: false,
       currentRequest: null as AbortController | null,
-      page: 1,
+      page: 0,
       hasMore: true,
       lastBreedId: '',
       flippedItems: [] as string[],

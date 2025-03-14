@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 
 const displayText = ref('');
@@ -54,4 +54,17 @@ onMounted(() => {
     opacity: 0;
   }
 }
-</style>
+</style> -->
+
+<script setup lang="ts">
+import MovieLanding from '@/components/MovieLanding.vue';
+
+</script>
+
+<template>
+  <main class="flex items-center justify-center bg-white dark:bg-gray-800">
+    <div class="container mx-auto">
+      <MovieLanding />
+    </div>
+  </main>
+</template>

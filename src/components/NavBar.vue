@@ -3,33 +3,52 @@
     <div class="mx-auto px-10 p-3 rounded-full bg-gray-200 text-gray-900 dark:bg-gray-900 dark:text-gray-200">
       <ul class="flex flex-row items-center m-auto gap-3 text-center">
         <li class="hover:text-gray-900 dark:hover:text-gray-200 py-2"
-          :class="{ 'hidden md:inline text-gray-900 dark:text-gray-200 font-semibold': isActiveHome, 'text-gray-500': !isActiveHome }">
+          :class="{ 'hidden md:inline text-gray-900 dark:text-gray-200 font-semibold': isActiveHome, 'text-gray-400': !isActiveHome }">
           <RouterLink to="/" class="pl-3">Home</RouterLink>
         </li>
         <li class="hover:text-gray-900 dark:hover:text-gray-200 py-2"
-          :class="{ 'hidden md:inline text-gray-900 dark:text-gray-200 dark:text-gray-200font-semibold': isActiveCat, 'text-gray-500': !isActiveCat }">
+          :class="{ 'hidden md:inline text-gray-900 dark:text-gray-200 dark:text-gray-200font-semibold': isActiveCat, 'text-gray-400': !isActiveCat }">
           <RouterLink to="/cat">Cat</RouterLink>
         </li>
         <li class="group/breed flex flex-row items-center gap-2" :class="{ 'hidden': !isActiveCat }">
           <p
-            class="text-gray-500 group-hover/breed:text-gray-900 dark:group-hover/breed:text-gray-200 group-hover/breed:font-bold">
+            class="text-gray-400 group-hover/breed:text-gray-900 dark:group-hover/breed:text-gray-200 group-hover/breed:font-bold">
             Breed</p>
           <select
             class="group/edit w-0 group-hover/breed:w-50 duration-300 transition-all ease-in-out border border-gray-200 dark:border-gray-900 group-hover/breed:border-gray-300 dark:group-hover/breed:border-gray-800 rounded-lg p-2 bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-gray-200 focus:outline-2 focus:outline-offset-2 focus:outline-gray-200 dark:focus:outline-gray-900 active:bg-gray-300 dark:active:bg-gray-800"
             @change="handleChange($event)">
             <option value=""
-              class="rounded-lg py-2 pl-4 text-gray-500 hover:bg-gray-900 dark:hover:bg-gray-100 hover:text-white dark:hover:text-black shadow-md">
+              class="rounded-lg py-2 pl-4 text-gray-400 hover:bg-gray-900 dark:hover:bg-gray-100 hover:text-white dark:hover:text-black shadow-md">
               All
               Breeds</option>
             <option v-for="option in options" :key="option.value" :value="option.value"
-              class="rounded-lg py-2 pl-4 text-gray-500 hover:bg-gray-900 dark:hover:bg-gray-100 hover:text-white dark:hover:text-black shadow-md">
+              class="rounded-lg py-2 pl-4 text-gray-400 hover:bg-gray-900 dark:hover:bg-gray-100 hover:text-white dark:hover:text-black shadow-md">
               {{ option.text }}
             </option>
           </select>
         </li>
         <li class="hover:text-gray-900 dark:hover:text-gray-200 py-2"
-          :class="{ 'hidden md:inline text-gray-900 dark:text-gray-200 dark:text-gray-200font-semibold': isActiveMovie, 'text-gray-500': !isActiveMovie }">
+          :class="{ 'hidden md:inline text-gray-900 dark:text-gray-200 dark:text-gray-200font-semibold': isActiveMovie, 'text-gray-400': !isActiveMovie }">
           <RouterLink to="/movie">Movie</RouterLink>
+        </li>
+        <li class="group/breed flex flex-row items-center gap-2" :class="{ 'hidden': !isActiveMovie }">
+          <p
+            class="text-gray-400 group-hover/breed:text-gray-900 dark:group-hover/breed:text-gray-200 group-hover/breed:font-bold">
+            Menu</p>
+          <select
+            class="group/edit w-0 group-hover/breed:w-50 duration-300 transition-all ease-in-out border border-gray-200 dark:border-gray-900 group-hover/breed:border-gray-300 dark:group-hover/breed:border-gray-800 rounded-lg p-2 bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-gray-200 focus:outline-2 focus:outline-offset-2 focus:outline-gray-200 dark:focus:outline-gray-900 active:bg-gray-300 dark:active:bg-gray-800"
+            @change="handleChangeMovie($event)">
+            <option v-for="option in menuMovie" :key="option.value" :value="option.value"
+              class="rounded-lg py-2 pl-4 text-gray-400 hover:bg-gray-900 dark:hover:bg-gray-100 hover:text-white dark:hover:text-black shadow-md">
+              {{ option.text }}
+            </option>
+          </select>
+        </li>
+        <li class="group/item flex flex-row items-center gap-2" :class="{ 'hidden': !isActiveMovie }">
+          <p class="text-gray-400 group-hover/item:text-gray-200 group-hover/item:font-bold">Search</p>
+          <input type="text"
+            class="group/edit w-0 group-hover/item:w-50 duration-300 transition-all ease-in-out border border-gray-200 dark:border-gray-900 group-hover/item:border-gray-300 dark:group-hover/item:border-gray-800 rounded-lg p-2 bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-gray-200 focus:outline-2 focus:outline-offset-2 focus:outline-gray-200 dark:focus:outline-gray-900 active:bg-gray-300 dark:active:bg-gray-800"
+            placeholder="Search" @change="handleChangeSearch($event)" />
         </li>
         <li>
           <button @click="toggleTheme" class="p-2 rounded-lg" :class="{ 'animate-rotate': isAnimating }">
@@ -39,12 +58,6 @@
             </transition>
           </button>
         </li>
-        <!-- <li class="group/item flex flex-row items-center gap-2">
-          <p class="text-gray-500 group-hover/item:text-gray-200 group-hover/item:font-bold">Search</p>
-          <input type="text"
-            class="group/edit w-0 group-hover/item:w-50 duration-300 transition-all ease-in-out border border-gray-900 group-hover/item:border-gray-800 rounded-lg p-2"
-            placeholder="Search" @change="handleChangeSearch($event)" />
-        </li> -->
       </ul>
     </div>
   </header>
@@ -55,6 +68,15 @@ interface Breed {
   id: string;
   name: string;
 }
+
+const menuMovie = [{
+  value: 'movie.search',
+  text: 'Movie 1'
+},
+{
+  value: 'movie2',
+  text: 'Movie 2'
+}]
 
 export default {
   setup() {
@@ -71,6 +93,7 @@ export default {
       dataFetched: false,
       isDark: true,
       isAnimating: false,
+      menuMovie: menuMovie,
     }
   },
   watch: {
@@ -116,6 +139,10 @@ export default {
       const selectedValue = (event.target as HTMLSelectElement).value || '';
       this.$router.push({ query: { breeds_ids: selectedValue } });
     },
+    handleChangeMovie(event: Event) {
+      const selectedValue = (event.target as HTMLSelectElement).value || '';
+      this.$router.push({ name: selectedValue, params: { id: selectedValue } })
+    },
     handleChangeSearch(event: Event) {
       const searchValue = (event.target as HTMLInputElement).value || '';
       this.$router.push({ query: { search: searchValue } });
@@ -137,16 +164,16 @@ export default {
   },
   computed: {
     isActiveHome() {
-      return this.$route.path === '/'
+      return this.$route.path === '/' || this.$route.path.startsWith('/home')
     },
     isActiveAbout() {
-      return this.$route.path === '/about'
+      return this.$route.path === '/about' || this.$route.path.startsWith('/about/')
     },
     isActiveCat() {
-      return this.$route.path === '/cat'
+      return this.$route.path === '/cat' || this.$route.path.startsWith('/cat/')
     },
     isActiveMovie() {
-      return this.$route.path === '/movie'
+      return this.$route.path === '/movie' || this.$route.path.startsWith('/movie/')
     },
   }
 }
